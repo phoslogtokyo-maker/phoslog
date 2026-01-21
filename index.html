@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOS LOG</title>
+    <style>
+        :root {
+            --line-color: #e0e0e0;
+            --text-main: #333333;
+            --text-sub: #999999;
+            --bg-color: #FBFCFC;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            margin: 0;
+            display: flex;
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- LOGO SECTION: å·¦å›ºå®š --- */
+        header {
+            width: 30%;
+            min-width: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            border-right: 0.5px solid var(--line-color);
+        }
+
+        .logo-container {
+            position: relative;
+            padding: 10px 40px;
+            text-align: center;
+        }
+
+
+        .logo-container::after {
+            top: 0; left: 0; right: 0; bottom: 0;
+            transform: translate(-5px, -5px);
+        }
+        .tagline-area {
+        margin-top: 40px; /* ロゴとキャッチコピーの間の十分な余白 */
+    }
+
+    .tagline-main {
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.5em;
+        color: #444;
+        margin: 0;
+    }
+
+    .tagline-sub {
+        font-size: 9px;
+        font-weight: 200;
+        letter-spacing: 0.6em;
+        color: #aaa;
+        margin: 15px 0 0 0;
+        /* 中央揃えの補正 */
+        text-indent: 0.6em;
+    }
+
+/* --- アニメーション設定の書き換え --- */
+
+h1 {
+    font-weight: 200;
+    letter-spacing: 0.8em;
+    font-size: 1.2rem;
+    margin: 0;
+    text-indent: 0.8em; 
+    /* 修正箇所：0.8s, ease-out, 新しいアニメーション名に変更 */
+    animation: slideBlurIn 0.8s ease-out forwards;
+}
+
+@keyframes slideBlurIn {
+    0% {
+        opacity: 0;
+        transform: translateX(32px); /* 右に32pxの位置から開始 */
+        filter: blur(20px);          /* ブラー強め */
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);    /* 元の位置へ */
+        filter: blur(0);             /* ブラーなし */
+    }
+}
+/* 写真の初期状態とアニメーション設定 */
+.main-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    
+    /* --- 追加：表示時のアニメーション --- */
+    animation: photoReveal 0.5s ease-out forwards;
+}
+
+@keyframes photoReveal {
+    0% {
+        opacity: 0;
+        filter: blur(10px);        /* 軽くブラーをかける */
+        transform: translateY(15px); /* 少し下から浮き上がる */
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+    }
+}
+/* 2枚目、3枚目の写真に遅延（ディレイ）をかける */
+.photo-container:nth-child(2) .main-image {
+    animation-delay: 0.2s;
+}
+
+.photo-container:nth-child(3) .main-image {
+    animation-delay: 0.4s;
+}
+
+        /* --- ART WORK SECTION --- */
+        .art-work {
+            margin-left: 30%;
+            min-width: 300px;
+            width: 70%;
+            padding: 60px 40px 0 40px;
+            height: 100vh;
+            overflow-y: scroll;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .photo-container {
+            position: relative;
+            display: flex;
+            gap: 30px; /* 写真とメタデータの隙間 */
+            justify-content: center; /* 中央揃え */
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 70%; /* 70%に調整 */
+            margin: 0 auto; /* 中央揃え */
+        }
+
+        .main-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            /* ストリートスナップを際立たせる微細な影 */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .main-image:hover {
+            opacity: 0.85;
+        }
+
+        /* --- MODAL --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            animation: zoomIn 0.3s ease;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #ffffff;
+            font-size: 40px;
+            font-weight: 200;
+            cursor: pointer;
+            z-index: 1001;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-close:hover {
+            opacity: 0.7;
+        }
+
+        @keyframes zoomIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .size_half{
+            width: 50%;
+            height: auto;
+            margin-left: 50%;
+        }
+
+        /* --- META DATA: 縦書き・極細ライン --- */
+        .meta-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* 下揃え */
+            font-size: 10px;
+            font-weight: 200;
+            color: var(--text-sub);
+            letter-spacing: 0.2em;
+            writing-mode: vertical-rl; /* 縦書き */
+            border-right: 0.5px solid var(--line-color);
+            padding-right: 15px;
+            height: auto;
+        }
+
+        .meta-info span {
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .film-sim {
+            color: var(--text-main);
+            font-weight: 400;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 60px 20px 60px 20px;
+            font-size: 10px;
+            color: var(--text-sub);
+            letter-spacing: 0.1em;
+            margin-top: 80px;
+            width: 100%;
+            clear: both;
+        }
+
+        /* スマホ対応: 画面が狭いときは横書きに戻す */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                height: auto;
+                overflow: auto;
+                width: 100%;
+            }
+            
+            header {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 0.5px solid var(--line-color);
+                padding: 60px 0;
+                min-width: auto;
+            }
+            
+            .art-work {
+                margin-left: 0;
+                width: 100%;
+                height: auto;
+                overflow-y: visible;
+                overflow-x: hidden;
+                padding: 40px 20px;
+                min-width: auto;
+                box-sizing: border-box;
+            }
+            
+            .photo-container {
+                flex-direction: column;
+                gap: 20px;
+                width: 100%;
+            }
+            
+            .image-wrapper {
+                width: 100%; /* スマホでは100%に戻す */
+                margin: 0;
+            }
+            
+            .main-image {
+                width: 100%;
+                height: auto;
+            }
+            
+            .meta-info {
+                writing-mode: horizontal-tb;
+                border-right: none;
+                border-top: 0.5px solid var(--line-color);
+                padding-right: 0;
+                padding-top: 15px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 15px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <h1><img src="logo.svg" alt="Sample Work" width="240" height="64"></h1>
+            <div class="tagline-area">
+                <p class="tagline-main">VISUAL STORIES</p>
+                <p class="tagline-sub">ストリートフォト・アーカイブ</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="art-work">
+        <div class="photo-container">
+            <div class="image-wrapper">
+                <img src="000.jpg" alt="Sample Work" class="main-image">
+            </div>
+
+            <aside class="meta-info">
+                <span class="spec">X-T30 III / XF23mmF2 R WR</span>
+                <span class="setting">f/2.8 1/125s ISO 160</span>
+                <span class="film-sim">CLASSIC CHROME</span>
+            </aside>
+        </div>
+        <br>
+        <div class="photo-container">
+            <div class="image-wrapper">
+                <img src="001.jpg" alt="Sample Work" class="main-image">
+            </div>
+
+            <aside class="meta-info">
+                <span class="spec">X-T30 III / XF23mmF2 R WR</span>
+                <span class="setting">f/2.8 1/125s ISO 160</span>
+                <span class="film-sim">CLASSIC CHROME</span>
+            </aside>
+        </div>
+        <br>
+        <div class="photo-container">
+            <div class="image-wrapper">
+                <img src="002.jpg" alt="Sample Work" class="main-image">
+            </div>
+
+            <aside class="meta-info">
+                <span class="spec">X-T30 III / XF23mmF2 R WR</span>
+                <span class="setting">f/2.8 1/125s ISO 160</span>
+                <span class="film-sim">CLASSIC CHROME</span>
+            </aside>
+        </div>
+        
+        <footer>
+            <p>&copy; 2026 PHOS LOG. All rights reserved.</p>
+        </footer>
+    </main>
+
+    <!-- モーダル -->
+    <div class="modal" id="imageModal">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        // モーダル機能
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalClose = document.getElementById('modalClose');
+        const images = document.querySelectorAll('.main-image');
+
+        // 各画像にクリックイベントを追加
+        images.forEach(img => {
+            img.addEventListener('click', function() {
+                modal.classList.add('active');
+                modalImg.src = this.src;
+            });
+        });
+
+        // 閉じるボタン
+        modalClose.addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+
+        // 背景クリックで閉じる
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // ESCキーで閉じる
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            }
+        });
+    </script>
+
+</body>
+</html>
