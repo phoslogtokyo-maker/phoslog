@@ -132,14 +132,15 @@ h1 {
         /* --- ART WORK SECTION --- */
         .art-work {
             margin-left: 30%;
-            min-width: 300px;
             width: 70%;
             padding: 60px 40px 0 40px;
             height: 100vh;
             overflow-y: scroll;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             gap: 20px;
+            box-sizing: border-box;
         }
 
         .photo-container {
@@ -147,18 +148,22 @@ h1 {
             display: flex;
             gap: 30px; /* 写真とメタデータの隙間 */
             justify-content: center; /* 中央揃え */
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .image-wrapper {
             position: relative;
-            width: 70%; /* 70%に調整 */
+            width: 60%; /* 60%に調整 */
             margin: 0 auto; /* 中央揃え */
+            max-width: 100%;
         }
 
         .main-image {
             width: 100%;
             height: auto;
             display: block;
+            max-width: 100%;
             /* ストリートスナップを際立たせる微細な影 */
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             cursor: pointer;
@@ -349,7 +354,7 @@ h1 {
                 <span class="film-sim">CLASSIC CHROME</span>
             </aside>
         </div>
-        <br>
+        
         <div class="photo-container">
             <div class="image-wrapper">
                 <img src="001.jpg" alt="Sample Work" class="main-image">
@@ -361,7 +366,7 @@ h1 {
                 <span class="film-sim">CLASSIC CHROME</span>
             </aside>
         </div>
-        <br>
+        
         <div class="photo-container">
             <div class="image-wrapper">
                 <img src="002.jpg" alt="Sample Work" class="main-image">
@@ -373,7 +378,7 @@ h1 {
                 <span class="film-sim">CLASSIC CHROME</span>
             </aside>
         </div>
-        <br>
+        
         <div class="photo-container">
             <div class="image-wrapper">
                 <img src="004.jpg" alt="Sample Work" class="main-image">
@@ -385,7 +390,7 @@ h1 {
                 <span class="film-sim">CLASSIC CHROME</span>
             </aside>
         </div>
-        <br>
+       
         <div class="photo-container">
             <div class="image-wrapper">
                 <img src="003.jpg" alt="Sample Work" class="main-image">
@@ -397,7 +402,7 @@ h1 {
                 <span class="film-sim">CLASSIC CHROME</span>
             </aside>
         </div>
-        <br>
+        
         <div class="photo-container">
             <div class="image-wrapper">
                 <img src="005.jpg" alt="Sample Work" class="main-image">
